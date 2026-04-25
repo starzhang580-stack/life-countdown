@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="你还有多少个周末？- 一个温和的人生时间思考工具">
+    <meta name="theme-color" content="#667eea">
+    <title>你还有多少个周末？</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>⏰</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1: 基础信息 -->
+        <div id="step1" class="step active">
+            <div class="step-header">
+                <h1>⏰ 你还有多少个周末？</h1>
+                <p>一个温和的人生时间思考工具</p>
+            </div>
+
+            <div class="form-group">
+                <label>你的年龄</label>
+                <input type="number" id="age" min="1" max="120" placeholder="例如：28" />
+            </div>
+
+            <div class="form-group">
+                <label>性别</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="gender" value="male" /> 男</label>
+                    <label><input type="radio" name="gender" value="female" /> 女</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>国家/地区</label>
+                <select id="country">
+                    <option value="spain">🇪🇸 西班牙</option>
+                    <option value="china">🇨🇳 中国</option>
+                    <option value="us">🇺🇸 美国</option>
+                    <option value="uk">🇬🇧 英国</option>
+                    <option value="japan">🇯🇵 日本</option>
+                    <option value="germany">🇩🇪 德国</option>
+                </select>
+            </div>
+
+            <button class="btn-next" onclick="goToStep2()">下一步</button>
+        </div>
+
+        <!-- Step 2: 生活方式测试 -->
+        <div id="step2" class="step">
+            <div class="step-header">
+                <h2>🔍 快速生活方式评估</h2>
+                <p>3个问题，了解你的生活状态</p>
+            </div>
+
+            <div class="question">
+                <p>你平时几点睡觉？</p>
+                <div class="options">
+                    <button class="option-btn" onclick="setAnswer('sleep', -2)">
+                        <span class="emoji">😇</span>
+                        <span>22:00前</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('sleep', 0)">
+                        <span class="emoji">🙂</span>
+                        <span>23:00-00:00</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('sleep', 1)">
+                        <span class="emoji">😅</span>
+                        <span>00:00-01:00</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('sleep', 2)">
+                        <span class="emoji">☠️</span>
+                        <span>01:00以后</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>你多久运动一次？</p>
+                <div class="options">
+                    <button class="option-btn" onclick="setAnswer('exercise', 3)">
+                        <span class="emoji">💪</span>
+                        <span>每周3次以上</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('exercise', 1)">
+                        <span class="emoji">🙂</span>
+                        <span>偶尔动一动</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('exercise', 0)">
+                        <span class="emoji">🛋️</span>
+                        <span>基本不动</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="question">
+                <p>你对生活的满意度？</p>
+                <div class="options">
+                    <button class="option-btn" onclick="setAnswer('satisfaction', 1)">
+                        <span class="emoji">❤️</span>
+                        <span>很满意</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('satisfaction', 0)">
+                        <span class="emoji">🙂</span>
+                        <span>还行</span>
+                    </button>
+                    <button class="option-btn" onclick="setAnswer('satisfaction', -1)">
+                        <span class="emoji">😕</span>
+                        <span>不太满意</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-back" onclick="goToStep1()">返回</button>
+                <button class="btn-next" onclick="goToResults()">查看结果</button>
+            </div>
+        </div>
+
+        <!-- Step 3: 结果页 -->
+        <div id="step3" class="step">
+            <div class="result-container">
+                <!-- 情绪友好输出 -->
+                <div class="result-header">
+                    <h2>💫 你的人生时间余额</h2>
+                </div>
+
+                <div class="life-stat">
+                    <p class="intro">如果你保持现在的生活方式，你还有大约：</p>
+                    <div class="big-number" id="daysRemaining">18,240</div>
+                    <p class="unit">天</p>
+                </div>
+
+                <div class="life-breakdown">
+                    <div class="breakdown-item">
+                        <span class="number" id="weekendsRemaining">2,600</span>
+                        <span class="label">个周末</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="number" id="yearsRemaining">50</span>
+                        <span class="label">年</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="number" id="summersRemaining">50</span>
+                        <span class="label">个夏天</span>
+                    </div>
+                </div>
+
+                <!-- 人生进度条 -->
+                <div class="progress-section">
+                    <h3>📊 你的人生进度</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">你已经使用了 38%</p>
+                </div>
+
+                <!-- 改善建议 -->
+                <div class="suggestions">
+                    <h3>💡 你可以做的改变</h3>
+                    <div class="suggestion-list" id="suggestionList"></div>
+                    <div class="potential-gain">
+                        <p id="potentialGain">你最多可以多获得 6.5 年人生</p>
+                    </div>
+                </div>
+
+                <!-- 分享按钮 -->
+                <div class="share-section">
+                    <button class="btn-share" onclick="shareResult()">📱 分享我的结果</button>
+                    <button class="btn-download" onclick="downloadResult()">💾 下载报告</button>
+                </div>
+
+                <button class="btn-restart" onclick="restart()">🔄 重新计算</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
